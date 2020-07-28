@@ -7,7 +7,7 @@ before-install:
   - docker build -t autodidakt/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true USERNAME/react-test npm test
+  - docker run autodidakt/react-test npm test -- --coverage
 
 after_success:
   - docker build -t autodidakt/multi-client ./client
