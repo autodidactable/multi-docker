@@ -1,0 +1,26 @@
+sudo: required
+
+service:
+  - docker
+
+before-install:
+  - docker build -t autodidakt/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run autodidakt/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t autodidakt/multi-client ./client
+  - docker build -t autodidakt/multi-nginx ./nginx
+  - docker build -t autodidakt/multi-server ./server
+  - docker build -t autodidakt/multi-worker ./worker
+  #Log into the docker CLI - to push the images. Need to create env variables on the travis website
+  #to pass the credentials
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  
+  
+  #Take these images and push them to Docker Hub
+  - docker push autodidakt/multi-client
+  - docker push autodidakt/multi-nginx
+  - docker push autodidakt/multi-server
+  - docker push autodidakt/multi-worker
