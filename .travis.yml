@@ -24,3 +24,18 @@ after_success:
   - docker push autodidakt/multi-nginx
   - docker push autodidakt/multi-server
   - docker push autodidakt/multi-worker
+
+
+  #Bean Stalk Deploy script
+  deploy:
+    edge: true
+    provider: elasticbeanstalk
+    region: us-west-1
+    app: multi-docker
+    env: multi-docker-env
+    bucket_name: elasticbeanstalk-us-west-1-555582514082
+    bucket_path: docker-multi
+    on:
+      branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
