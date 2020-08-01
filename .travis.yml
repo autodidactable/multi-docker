@@ -28,10 +28,11 @@ after_success:
 
   #Bean Stalk Deploy script
   deploy:
+    edge: true
     provider: elasticbeanstalk
     region: us-west-1
     app: multi-docker
-    env: multi-docker-env
+    env: MultiDocker-env
     bucket_name: elasticbeanstalk-us-west-1-555582514082
     bucket_path: docker-multi
     on:
